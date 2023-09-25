@@ -1,6 +1,6 @@
 on_actions = {
 
-	on_weekly = {
+	on_daily = {
 	
 		effect = {
 			#calculate income from civ factories
