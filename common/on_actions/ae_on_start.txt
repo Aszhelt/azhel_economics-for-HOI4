@@ -47,6 +47,11 @@ on_actions = {
 				set_variable = { saldo = 0 }
 				add_to_variable = { saldo = total_income }
 				subtract_from_variable = { saldo = total_expenses }
+
+				#-----------------------------------GDP-------------------------------------------
+				set_variable = { gdp = 0 }
+				add_to_variable = { gdp = total_income }
+				add_to_variable = { gdp = total_expenses }
 			}
 		}
 	}
