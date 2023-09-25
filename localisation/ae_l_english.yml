@@ -1,3 +1,3 @@
 ﻿l_english:
 
-BUDGET_MAIN:0 "[?saldo]"
+BUDGET_MAIN:0 "saldo=[?saldo]\ngdp=[?gdp]"

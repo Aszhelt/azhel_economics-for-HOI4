@@ -4,47 +4,8 @@ on_actions = {
 
 		#daily budget calculations
 		effect = {
-			#----------------------------------income------------------------------------------
-			set_variable = { total_income = 0 }
-
-			#calculate income from all civ factories
-			set_variable = { civ_income = num_of_civilian_factories }
-			multiply_variable = { civ_income = global.civ_facory_income }
-
-			#multiply income from civ for democratic state
-			if = {
-				limit = { has_government = democratic }
-				multiply_variable = { civ_income = global.democratic_multiplier }
-			}
-
-			#add to total income
-			add_to_variable = { total_income = civ_income }
-				
-			#---------------------------------expenses------------------------------------------
-			set_variable = { total_expenses = 0 }
-
-			#calculate expenses from all mil factories
-			set_variable = { mil_expenses = num_of_military_factories }
-			multiply_variable = { mil_expenses = global.mil_facory_expenses }
-
-			#multiply expenses from mil for democratic state
-			if = {
-				limit = { has_government = democratic }
-				multiply_variable = { mil_expenses = global.democratic_multiplier }
-			}
-
-			#add to total expenses
-			add_to_variable = { total_expenses = mil_expenses }
-
-			#-----------------------------------saldo-------------------------------------------
-			set_variable = { saldo = 0 }
-			add_to_variable = { saldo = total_income }
-			subtract_from_variable = { saldo = total_expenses }
-
-			#-----------------------------------GDP-------------------------------------------
-			set_variable = { gdp = 0 }
-			add_to_variable = { gdp = total_income }
-			add_to_variable = { gdp = total_expenses }
+			#common/scripted_effects/ae_scripted_effects.txt
+			calculate_budget = yes
 		}
 	}
 }
