@@ -3,135 +3,50 @@ on_actions = {
 	on_startup = {
 
 		effect = {
-			set_variable = { var = democratic_multiplier value = 1.5}
+			set_variable = { democratic_multiplier = 1.1}
+			#set income from civ factories
+			set_variable = { civ_facory_income = 0.1 }
+			#set expenses from mil factories
+			set_variable = { mil_facory_expenses = 0.1 }
 
 			#calculation for budget on start of the game
-			every_country={
-				#set income from civ factories
-				set_variable = { var = civ_facory_income value = 1 }
-				#set income from mil factories
-				set_variable = { var = mil_facory_income value = -1 }
+			every_country= {
+				#----------------------------------income------------------------------------------
+				set_variable = { total_income = 0 }
 
 				#calculate income from all civ factories
-				set_variable = { var = civ_income value = num_of_civilian_factories }
-				multiply_variable = { var = civ_income value = civ_facory_income }
-				if = { #multiply income from civ for democratic state
+				set_variable = { civ_income = num_of_civilian_factories }
+				multiply_variable = { civ_income = global.civ_facory_income }
+
+				#multiply income from civ for democratic state
+				if = {
 					limit = { has_government = democratic }
-					multiply_variable = { var = civ_income value = global.democratic_multiplier }
-				}
-				
-				#calculate income from all mil factories
-				set_variable = { var = mil_income value = num_of_military_factories }
-				multiply_variable = { var = mil_income value = mil_facory_income }
-
-				#calculate saldo
-				set_variable = { var = saldo value = 0 }
-				add_to_variable ={ var = saldo value = civ_income }
-				add_to_variable ={ var = saldo value = mil_income }
-			}
-		}
-	}
-
-	#calculation for budget on release
-	on_release_as_free = {
-
-		effect = {
-			
-			#set base values and calculate initial budget for new state
-			ROOT = {
-				#set income from civ factories
-				set_variable = { var = civ_facory_income value = 1 }
-				#set income from mil factories
-				set_variable = { var = mil_facory_income value = -1 }
-
-				#calculate income from civ factories
-				set_variable = { var = civ_income value = num_of_civilian_factories }
-				multiply_variable = { var = civ_income value = civ_facory_income }
-				if = { #multiply income from civ for democratic state
-					limit = { has_government = democratic }
-					multiply_variable = { var = civ_income value = global.democratic_multiplier }
+					multiply_variable = { civ_income = global.democratic_multiplier }
 				}
 
-				#calculate income from all mil factories
-				set_variable = { var = mil_income value = num_of_military_factories }
-				multiply_variable = { var = mil_income value = mil_facory_income }
+				#add to total income
+				add_to_variable = { total_income = civ_income }
+					
+				#---------------------------------expenses------------------------------------------
+				set_variable = { total_expenses = 0 }
 
-				#calculate saldo
-				set_variable = { var = saldo value = 0 }
-				add_to_variable ={ var = saldo value = civ_income }
-				add_to_variable ={ var = saldo value = mil_income }
-			}
+				#calculate expenses from all mil factories
+				set_variable = { mil_expenses = num_of_military_factories }
+				multiply_variable = { mil_expenses = global.mil_facory_expenses }
 
-			#recalculate budget for releaser
-			FROM = {
-				#calculate income from civ factories
-				set_variable = { var = civ_income value = num_of_civilian_factories }
-				multiply_variable = { var = civ_income value = civ_facory_income }
-				if = { #multiply income from civ for democratic state
+				#multiply expenses from mil for democratic state
+				if = {
 					limit = { has_government = democratic }
-					multiply_variable = { var = civ_income value = global.democratic_multiplier }
-				}
-				
-				#calculate income from all mil factories
-				set_variable = { var = mil_income value = num_of_military_factories }
-				multiply_variable = { var = mil_income value = mil_facory_income }
-
-				#calculate saldo
-				set_variable = { var = saldo value = 0 }
-				add_to_variable ={ var = saldo value = civ_income }
-				add_to_variable ={ var = saldo value = mil_income }
-			}
-		}
-	}
-
-	#calculation for budget on release
-	on_release_as_puppet = {
-
-		effect = {
-
-			#set base values and calculate initial budget for new state
-			ROOT = {
-				#set income from civ factories
-				set_variable = { var = civ_facory_income value = 1 }
-				#set income from mil factories
-				set_variable = { var = mil_facory_income value = -1 }
-
-				#calculate income from civ factories
-				set_variable = { var = civ_income value = num_of_civilian_factories }
-				multiply_variable = { var = civ_income value = civ_facory_income }
-				if = { #multiply income from civ for democratic state
-					limit = { has_government = democratic }
-					multiply_variable = { var = civ_income value = global.democratic_multiplier }
+					multiply_variable = { mil_expenses = global.democratic_multiplier }
 				}
 
-				#calculate income from all mil factories
-				set_variable = { var = mil_income value = num_of_military_factories }
-				multiply_variable = { var = mil_income value = mil_facory_income }
+				#add to total expenses
+				add_to_variable = { total_expenses = mil_expenses }
 
-				#calculate saldo
-				set_variable = { var = saldo value = 0 }
-				add_to_variable ={ var = saldo value = civ_income }
-				add_to_variable ={ var = saldo value = mil_income }
-			}
-
-			#recalculate budget for releaser
-			FROM = {
-				#calculate income from civ factories
-				set_variable = { var = civ_income value = num_of_civilian_factories }
-				multiply_variable = { var = civ_income value = civ_facory_income }
-				if = { #multiply income from civ for democratic state
-					limit = { has_government = democratic }
-					multiply_variable = { var = civ_income value = global.democratic_multiplier }
-				}
-				
-				#calculate income from all mil factories
-				set_variable = { var = mil_income value = num_of_military_factories }
-				multiply_variable = { var = mil_income value = mil_facory_income }
-
-				#calculate saldo
-				set_variable = { var = saldo value = 0 }
-				add_to_variable ={ var = saldo value = civ_income }
-				add_to_variable ={ var = saldo value = mil_income }
+				#-----------------------------------saldo-------------------------------------------
+				set_variable = { saldo = 0 }
+				add_to_variable = { saldo = total_income }
+				subtract_from_variable = { saldo = total_expenses }
 			}
 		}
 	}
