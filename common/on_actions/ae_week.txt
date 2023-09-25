@@ -1,0 +1,25 @@
+on_actions = {
+
+	on_weekly = {
+	
+		effect = {
+			#calculate income from civ factories
+			set_variable = { var = civ_income value = num_of_civilian_factories }
+			multiply_variable = { var = civ_income value = civ_facory_income }
+			if = { #multiply income from civ for democratic state
+				limit = { has_government = democratic }
+				multiply_variable = { var = civ_income value = global.democratic_multiplier }
+			}
+			
+			#calculate income from all mil factories
+			set_variable = { var = mil_income value = num_of_military_factories }
+			multiply_variable = { var = mil_income value = mil_facory_income }
+
+			#calculate saldo
+			set_variable = { var = saldo value = 0 }
+			add_to_variable ={ var = saldo value = civ_income }
+			add_to_variable ={ var = saldo value = mil_income }
+		}
+
+	}
+}

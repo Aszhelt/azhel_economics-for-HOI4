@@ -1,0 +1,18 @@
+guiTypes = {
+
+	containerWindowType = {
+		name = "budget_container"
+		position = { x = 1030 y = 6 }
+		
+		instantTextBoxType = {
+			name ="budget_text"
+			position = { x= 23 y = 4 }
+			font = "hoi_18mbs"
+			text = "BUDGET_MAIN"
+			format = left
+			maxWidth = 300
+			maxHeight = 48
+			fixedsize = yes
+		}
+	}
+}
