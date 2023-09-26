@@ -1,16 +1,18 @@
 on_actions = {
 
+	#calculation for budget on start of the game
 	on_startup = {
 
 		effect = {
-			#set industry multiplier for democratic states
-			set_variable = { democratic_multiplier = 1.1}
-			#set income from civ factories
-			set_variable = { civ_facory_income = 0.1 }
-			#set expenses from mil factories
-			set_variable = { mil_facory_expenses = 0.1 }
+			
+			set_variable = { democratic_multiplier = 1.0 }
+			
+			set_variable = { civ_facory_income = 1.0 }
 
-			#calculation for budget on start of the game
+			set_variable = { mil_facory_expenses = 1.0 }
+
+			set_variable = { resource_cost = 0.125 }
+
 			every_country= {
 				#common/scripted_effects/ae_scripted_effects.txt
 				calculate_budget = yes

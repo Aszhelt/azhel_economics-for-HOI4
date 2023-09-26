@@ -1,8 +1,8 @@
 on_actions = {
 
+	#daily budget calculations
 	on_daily = {
 
-		#daily budget calculations
 		effect = {
 			#common/scripted_effects/ae_scripted_effects.txt
 			calculate_budget = yes

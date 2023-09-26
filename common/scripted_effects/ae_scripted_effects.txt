@@ -2,42 +2,72 @@ calculate_budget = {
 	#----------------------------------income------------------------------------------
 	set_variable = { total_income = 0 }
 
-	#calculate income from all civ factories
+	#-----------------------civil factories----------------------
 	set_variable = { civ_income = num_of_civilian_factories }
 	multiply_variable = { civ_income = global.civ_facory_income }
 
-	#multiply income from civ for democratic state
 	if = {
 		limit = { has_government = democratic }
 		multiply_variable = { civ_income = global.democratic_multiplier }
 	}
 
-	#add to total income
 	add_to_variable = { total_income = civ_income }
-	
-	#---------------------------------expenses------------------------------------------
+
+	#---------------------------------expenses-----------------------------------------
 	set_variable = { total_expenses = 0 }
 
-	#calculate expenses from all mil factories
+	#----------------------military factories--------------------
 	set_variable = { mil_expenses = num_of_military_factories }
 	multiply_variable = { mil_expenses = global.mil_facory_expenses }
 
-	#multiply expenses from mil for democratic state
 	if = {
 		limit = { has_government = democratic }
 		multiply_variable = { mil_expenses = global.democratic_multiplier }
 	}
 
-	#add to total expenses
 	add_to_variable = { total_expenses = mil_expenses }
 
-	#-----------------------------------saldo-------------------------------------------
+	#----------------------------------saldo-------------------------------------------
 	set_variable = { saldo = 0 }
 	add_to_variable = { saldo = total_income }
 	subtract_from_variable = { saldo = total_expenses }
 
-	#-----------------------------------GDP-------------------------------------------
+	#-----------------------------------GDP--------------------------------------------
 	set_variable = { gdp = 0 }
 	add_to_variable = { gdp = total_income }
 	add_to_variable = { gdp = total_expenses }
+
+	#-------------------------------GDP per capita-------------------------------------
+	set_variable = { gdp_per_capita = gdp }
+	divide_variable = { gdp_per_capita = max_manpower_k }
+}
+
+calculate_total_import_expenses = {
+
+	set_variable = { total_import_expenses = 0 }
+
+	set_variable = { oil_import_expenses = resource_imported@oil }
+	multiply_variable = { oil_import_expenses = global.resource_cost }
+	
+	set_variable = { aluminium_import_expenses = resource_imported@aluminium }
+	multiply_variable = { aluminium_import_expenses = global.resource_cost }
+	
+	set_variable = { rubber_import_expenses = resource_imported@rubber }
+	multiply_variable = { rubber_import_expenses = global.resource_cost }
+	
+	set_variable = { tungsten_import_expenses = resource_imported@tungsten }
+	multiply_variable = { tungsten_import_expenses = global.resource_cost }
+	
+	set_variable = { steel_import_expenses = resource_imported@steel }
+	multiply_variable = { steel_import_expenses = global.resource_cost }
+	
+	set_variable = { chromium_import_expenses = resource_imported@chromium }
+	multiply_variable = { chromium_import_expenses = global.resource_cost }
+
+	add_to_variable = { total_import_expenses = oil_import_expenses }
+	add_to_variable = { total_import_expenses = aluminium_import_expenses }
+	add_to_variable = { total_import_expenses = rubber_import_expenses }
+	add_to_variable = { total_import_expenses = tungsten_import_expenses }
+	add_to_variable = { total_import_expenses = steel_import_expenses }
+	add_to_variable = { total_import_expenses = chromium_import_expenses }
 }
