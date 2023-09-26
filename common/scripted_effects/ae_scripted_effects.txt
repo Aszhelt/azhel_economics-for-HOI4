@@ -4,6 +4,7 @@ calculate_budget = {
 
 	#-----------------------civil factories----------------------
 	set_variable = { civ_income = num_of_civilian_factories }
+	subtract_from_variable = { civ_income = num_of_civilian_factories_available_for_projects }
 	multiply_variable = { civ_income = global.civ_facory_income }
 
 	if = {
