@@ -13,8 +13,10 @@ on_actions = {
 
 			every_country= {
 				#common/scripted_effects/ae_calculate_budget.txt
-
 				calculate_budget = yes
+				
+				#common/scripted_effects/ae_calculate_state_budget.txt
+				calculate_state_budget = yes
 			}
 		}
 	}
