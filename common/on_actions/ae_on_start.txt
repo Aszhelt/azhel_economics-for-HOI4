@@ -12,7 +12,7 @@ on_actions = {
 			set_variable = { resource_cost = 1.25 }
 
 			every_country= {
-				#common/scripted_effects/ae_scripted_effects.txt
+				#common/scripted_effects/ae_calculate_budget.txt
 
 				calculate_budget = yes
 			}
