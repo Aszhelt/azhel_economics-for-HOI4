@@ -9,9 +9,10 @@ calculate_budget = {
 	set_variable = { used_fo_goverment_number_of_civs = num_of_civilian_factories_available_for_projects }
 	subtract_from_variable = { used_fo_goverment_number_of_civs = num_of_available_civilian_factories }
 
-	calculate_total_resource_consumed_expenses = yes
 	calculate_civ_income = yes
+	calculate_total_resource_consumed_expenses = yes
 	calculate_civ_expenses = yes
+	calculate_military_expenses = yes
 
 	calculate_gdp = yes
 
@@ -67,6 +68,55 @@ calculate_civ_expenses = {
 	multiply_variable = { civ_expenses = global.civ_facory_income }
 }
 
+calculate_military_expenses = {
+	set_variable = { military_expenses = 0 }
+
+	#----------------------------land-------------------------------
+	set_variable = { land_expenses = num_battalions }
+	multiply_variable = { land_expenses = global.battalion_expenses }
+
+	#-----------------------------air-------------------------------
+	set_variable = { air_expenses = num_deployed_planes }
+	multiply_variable = { air_expenses = global.plane_expenses }
+
+	#----------------------------navy-------------------------------
+	set_variable = { navy_expenses = 0 }
+
+	set_variable = { carrier_expenses = num_ships_with_type@carrier }
+	multiply_variable = { carrier_expenses = global.big_ship_cost }
+
+	set_variable = { battle_cruiser_expenses = num_ships_with_type@battle_cruiser }
+	multiply_variable = { battle_cruiser_expenses = global.big_ship_cost }
+
+	set_variable = { battleship_expenses = num_ships_with_type@battleship }
+	multiply_variable = { battleship_expenses = global.big_ship_cost }
+
+	set_variable = { destroyer_expenses = num_ships_with_type@destroyer }
+	multiply_variable = { destroyer_expenses = global.small_ship_cost }
+
+	set_variable = { heavy_cruiser_expenses = num_ships_with_type@heavy_cruiser }
+	multiply_variable = { heavy_cruiser_expenses = global.small_ship_cost }
+
+	set_variable = { light_cruiser_expenses = num_ships_with_type@light_cruiser }
+	multiply_variable = { light_cruiser_expenses = global.small_ship_cost }
+
+	set_variable = { submarine_expenses = num_ships_with_type@submarine }
+	multiply_variable = { submarine_expenses = global.small_ship_cost }
+	
+	add_to_variable = { navy_expenses = carrier_expenses }
+	add_to_variable = { navy_expenses = battle_cruiser_expenses }
+	add_to_variable = { navy_expenses = battleship_expenses }
+	add_to_variable = { navy_expenses = destroyer_expenses }
+	add_to_variable = { navy_expenses = heavy_cruiser_expenses }
+	add_to_variable = { navy_expenses = light_cruiser_expenses }
+	add_to_variable = { navy_expenses = submarine_expenses }
+
+	#----------------------------total-------------------------------
+	add_to_variable = { military_expenses = land_expenses }
+	add_to_variable = { military_expenses = air_expenses }
+	add_to_variable = { military_expenses = navy_expenses }
+}
+
 calculate_gdp = {
 	set_variable = { gdp = 0 }
 	add_to_variable = { gdp = civ_income }
@@ -74,8 +124,12 @@ calculate_gdp = {
 	add_to_variable = { gdp = total_resource_consumed_expenses }
 	
 	set_variable = { gdp_per_capita = gdp }
-	multiply_variable = { gdp_per_capita = 1000 }
-	divide_variable = { gdp_per_capita = max_manpower_k }
+	set_temp_variable = { population = max_manpower_k }
+	divide_temp_variable = { population = 1000 }
+	divide_variable = { gdp_per_capita = population }
+
+	set_variable = { tax_income = gdp }
+	multiply_variable = { tax_income = global.tax_rate }
 }
 
 calculate_saldo = {
@@ -86,11 +140,16 @@ calculate_saldo = {
 	#----------------------------icome-------------------------------
 	add_to_variable = { total_income = civ_income }
 
+	add_to_variable = { total_income = tax_income }
+
 	#---------------------------expenses-----------------------------
 	add_to_variable = { total_expenses = total_resource_consumed_expenses }
 
 	add_to_variable = { total_expenses = civ_expenses }
 
+	add_to_variable = { total_expenses = military_expenses }
+
+	#----------------------------saldo-------------------------------
 	add_to_variable = { saldo = total_income }
 	subtract_from_variable = { saldo = total_expenses }
 }
