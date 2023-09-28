@@ -1,41 +1,21 @@
+# num_of_available_civilian_factories 				- idle
+# num_of_civilian_factories 						- all
+# num_of_civilian_factories_available_for_projects 	- all not in consumer goods (idle+constructing)
+
 calculate_budget = {
-	#----------------------------------income------------------------------------------
-	set_variable = { total_income = 0 }
+	set_variable = { consumer_number_of_civs = num_of_civilian_factories }
+	subtract_from_variable = { consumer_number_of_civs = num_of_civilian_factories_available_for_projects }
 
-	#-----------------------civil factories----------------------
-	set_variable = { civ_income = num_of_civilian_factories }
-	subtract_from_variable = { civ_income = num_of_civilian_factories_available_for_projects }
-	multiply_variable = { civ_income = global.civ_facory_income }
+	set_variable = { used_fo_goverment_number_of_civs = num_of_civilian_factories_available_for_projects }
+	subtract_from_variable = { used_fo_goverment_number_of_civs = num_of_available_civilian_factories }
 
-	if = {
-		limit = { has_government = democratic }
-		multiply_variable = { civ_income = global.democratic_multiplier }
-	}
-
-	add_to_variable = { total_income = civ_income }
-
-	#---------------------------------expenses-----------------------------------------
-	set_variable = { total_expenses = 0 }
-
-	#----------------------resource consumed--------------------
 	calculate_total_resource_consumed_expenses = yes
+	calculate_civ_income = yes
+	calculate_civ_expenses = yes
 
-	add_to_variable = { total_expenses = total_resource_consumed_expenses }
+	calculate_gdp = yes
 
-	#----------------------------------saldo-------------------------------------------
-	set_variable = { saldo = 0 }
-	add_to_variable = { saldo = total_income }
-	subtract_from_variable = { saldo = total_expenses }
-
-	#-----------------------------------GDP--------------------------------------------
-	set_variable = { gdp = 0 }
-	add_to_variable = { gdp = total_income }
-	add_to_variable = { gdp = total_expenses }
-
-	#-------------------------------GDP per capita-------------------------------------
-	set_variable = { gdp_per_capita = gdp }
-	multiply_variable = { gdp_per_capita = 1000 }
-	divide_variable = { gdp_per_capita = max_manpower_k }
+	calculate_saldo = yes
 }
 
 calculate_total_resource_consumed_expenses = {
@@ -66,4 +46,51 @@ calculate_total_resource_consumed_expenses = {
 	add_to_variable = { total_resource_consumed_expenses = tungsten_consumed_expenses }
 	add_to_variable = { total_resource_consumed_expenses = steel_consumed_expenses }
 	add_to_variable = { total_resource_consumed_expenses = chromium_consumed_expenses }
+}
+
+calculate_civ_income = {
+	set_variable = { civ_income = consumer_number_of_civs }
+	multiply_variable = { civ_income = global.civ_facory_income }
+
+	if = {
+		limit = { has_government = democratic }
+		multiply_variable = { civ_income = global.democratic_multiplier }
+	}
+
+	set_variable = { factory_output = modifier@industrial_capacity_factory }
+	add_to_variable = { factory_output = 1 }
+	multiply_variable = { civ_income = factory_output }
+}
+
+calculate_civ_expenses = {
+	set_variable = { civ_expenses = used_fo_goverment_number_of_civs }
+	multiply_variable = { civ_expenses = global.civ_facory_income }
+}
+
+calculate_gdp = {
+	set_variable = { gdp = 0 }
+	add_to_variable = { gdp = civ_income }
+	add_to_variable = { gdp = civ_expenses }
+	add_to_variable = { gdp = total_resource_consumed_expenses }
+	
+	set_variable = { gdp_per_capita = gdp }
+	multiply_variable = { gdp_per_capita = 1000 }
+	divide_variable = { gdp_per_capita = max_manpower_k }
+}
+
+calculate_saldo = {
+	set_variable = { saldo = 0 }
+	set_variable = { total_income = 0 }
+	set_variable = { total_expenses = 0 }
+
+	#----------------------------icome-------------------------------
+	add_to_variable = { total_income = civ_income }
+
+	#---------------------------expenses-----------------------------
+	add_to_variable = { total_expenses = total_resource_consumed_expenses }
+
+	add_to_variable = { total_expenses = civ_expenses }
+
+	add_to_variable = { saldo = total_income }
+	subtract_from_variable = { saldo = total_expenses }
 }

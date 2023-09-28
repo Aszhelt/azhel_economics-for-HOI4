@@ -15,8 +15,12 @@ on_actions = {
 				#common/scripted_effects/ae_calculate_budget.txt
 				calculate_budget = yes
 				
-				#common/scripted_effects/ae_calculate_state_budget.txt
-				calculate_state_budget = yes
+				# if = { limit = { TAG = GER }
+				# 	every_core_state ={
+				# 		#common/scripted_effects/ae_calculate_state_budget.txt
+				# 		calculate_state_budget = yes
+				# 	}
+				# }
 			}
 		}
 	}

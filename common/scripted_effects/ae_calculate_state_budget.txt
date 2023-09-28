@@ -1,39 +1,5 @@
 calculate_state_budget = {
-	# #----------------------------------income------------------------------------------
-	# set_variable = { total_income = 0 }
-
-	# #-----------------------civil factories----------------------
-	# set_variable = { civ_income = num_of_civilian_factories }
-	# subtract_from_variable = { civ_income = num_of_civilian_factories_available_for_projects }
-	# multiply_variable = { civ_income = global.civ_facory_income }
-
-	# if = {
-	# 	limit = { has_government = democratic }
-	# 	multiply_variable = { civ_income = global.democratic_multiplier }
-	# }
-
-	# add_to_variable = { total_income = civ_income }
-
-	# #---------------------------------expenses-----------------------------------------
-	# set_variable = { total_expenses = 0 }
-
-	# #----------------------resource consumed--------------------
-	# calculate_total_resource_consumed_expenses = yes
-
-	# add_to_variable = { total_expenses = total_resource_consumed_expenses }
-
-	# #----------------------------------saldo-------------------------------------------
-	# set_variable = { saldo = 0 }
-	# add_to_variable = { saldo = total_income }
-	# subtract_from_variable = { saldo = total_expenses }
-
-	# #-----------------------------------GDP--------------------------------------------
-	# set_variable = { gdp = 0 }
-	# add_to_variable = { gdp = total_income }
-	# add_to_variable = { gdp = total_expenses }
-
-	# #-------------------------------GDP per capita-------------------------------------
-	# set_variable = { gdp_per_capita = gdp }
-	# multiply_variable = { gdp_per_capita = 1000 }
-	# divide_variable = { gdp_per_capita = max_manpower_k }
+	set_variable = { state_civ_number = industrial_complex_level }
+	set_variable = { state_infrastructure = infrastructure_level }
+	divide_variable = { state_infrastructure = 5 }
 }
