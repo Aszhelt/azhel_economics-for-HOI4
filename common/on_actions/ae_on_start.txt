@@ -8,6 +8,8 @@ on_actions = {
 			set_variable = { democratic_multiplier = 1.0 }
 			
 			set_variable = { civ_facory_income = 10.0 }
+			
+			set_variable = { consumer_goods_multiplier = 0.1 }
 
 			set_variable = { resource_cost = 1.25 }
 
@@ -18,18 +20,9 @@ on_actions = {
 			set_variable = { big_ship_cost = 1.0 }
 			set_variable = { small_ship_cost = 0.25 }
 
-			set_variable = { tax_rate = 0.1 }
-
 			every_country= {
 				#common/scripted_effects/ae_calculate_budget.txt
 				calculate_budget = yes
-				
-				# if = { limit = { TAG = GER }
-				# 	every_core_state ={
-				# 		#common/scripted_effects/ae_calculate_state_budget.txt
-				# 		calculate_state_budget = yes
-				# 	}
-				# }
 			}
 		}
 	}

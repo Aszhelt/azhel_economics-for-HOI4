@@ -6,12 +6,8 @@ calculate_budget = {
 	set_variable = { consumer_number_of_civs = num_of_civilian_factories }
 	subtract_from_variable = { consumer_number_of_civs = num_of_civilian_factories_available_for_projects }
 
-	set_variable = { used_fo_goverment_number_of_civs = num_of_civilian_factories_available_for_projects }
-	subtract_from_variable = { used_fo_goverment_number_of_civs = num_of_available_civilian_factories }
-
 	calculate_civ_income = yes
 	calculate_total_resource_consumed_expenses = yes
-	calculate_civ_expenses = yes
 	calculate_military_expenses = yes
 
 	calculate_gdp = yes
@@ -22,9 +18,14 @@ calculate_budget = {
 calculate_total_resource_consumed_expenses = {
 
 	set_variable = { total_resource_consumed_expenses = 0 }
-
-	set_variable = { oil_consumed_expenses = resource_consumed@oil }
-	multiply_variable = { oil_consumed_expenses = global.resource_cost }
+	if = { limit = { check_variable = { fuel_k < max_fuel_k } }
+		set_variable = { oil_consumed_expenses = resource@oil }
+		set_variable = { oil_consumed_expenses = resource@oil }
+		multiply_variable = { oil_consumed_expenses = global.resource_cost }
+	}
+	else = {
+		set_variable = { oil_consumed_expenses = 0 }
+	}
 	
 	set_variable = { aluminium_consumed_expenses = resource_consumed@aluminium }
 	multiply_variable = { aluminium_consumed_expenses = global.resource_cost }
@@ -51,7 +52,10 @@ calculate_total_resource_consumed_expenses = {
 
 calculate_civ_income = {
 	set_variable = { civ_income = consumer_number_of_civs }
-	multiply_variable = { civ_income = global.civ_facory_income }
+	multiply_variable = { civ_income = global.consumer_goods_multiplier }
+
+	add_to_variable = { civ_income = num_of_civilian_factories_available_for_projects }
+	multiply_variable = { civ_expenses = global.civ_facory_income }
 
 	if = {
 		limit = { has_government = democratic }
@@ -61,11 +65,6 @@ calculate_civ_income = {
 	set_variable = { factory_output = modifier@industrial_capacity_factory }
 	add_to_variable = { factory_output = 1 }
 	multiply_variable = { civ_income = factory_output }
-}
-
-calculate_civ_expenses = {
-	set_variable = { civ_expenses = used_fo_goverment_number_of_civs }
-	multiply_variable = { civ_expenses = global.civ_facory_income }
 }
 
 calculate_military_expenses = {
@@ -120,16 +119,12 @@ calculate_military_expenses = {
 calculate_gdp = {
 	set_variable = { gdp = 0 }
 	add_to_variable = { gdp = civ_income }
-	add_to_variable = { gdp = civ_expenses }
 	add_to_variable = { gdp = total_resource_consumed_expenses }
 	
 	set_variable = { gdp_per_capita = gdp }
 	set_temp_variable = { population = max_manpower_k }
 	divide_temp_variable = { population = 1000 }
 	divide_variable = { gdp_per_capita = population }
-
-	set_variable = { tax_income = gdp }
-	multiply_variable = { tax_income = global.tax_rate }
 }
 
 calculate_saldo = {
@@ -140,12 +135,8 @@ calculate_saldo = {
 	#----------------------------icome-------------------------------
 	add_to_variable = { total_income = civ_income }
 
-	add_to_variable = { total_income = tax_income }
-
 	#---------------------------expenses-----------------------------
 	add_to_variable = { total_expenses = total_resource_consumed_expenses }
-
-	add_to_variable = { total_expenses = civ_expenses }
 
 	add_to_variable = { total_expenses = military_expenses }
 

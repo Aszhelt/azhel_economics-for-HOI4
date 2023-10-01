@@ -1,5 +1,0 @@
-calculate_state_budget = {
-	set_variable = { state_civ_number = industrial_complex_level }
-	set_variable = { state_infrastructure = infrastructure_level }
-	divide_variable = { state_infrastructure = 5 }
-}
