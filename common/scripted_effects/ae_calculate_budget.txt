@@ -1,124 +1,18 @@
-# num_of_available_civilian_factories 				- idle
-# num_of_civilian_factories 						- all
-# num_of_civilian_factories_available_for_projects 	- all not in consumer goods (idle+constructing)
-
 calculate_budget = {
-	set_variable = { consumer_number_of_civs = num_of_civilian_factories }
-	subtract_from_variable = { consumer_number_of_civs = num_of_civilian_factories_available_for_projects }
-
-	calculate_civ_income = yes
 	calculate_total_resource_consumed_expenses = yes
-	calculate_military_expenses = yes
+	calculate_civil_production_income = yes
+	calculate_military_production_expenses = yes
+	calculate_active_military_expenses = yes
 
 	calculate_gdp = yes
 
 	calculate_saldo = yes
 }
 
-calculate_total_resource_consumed_expenses = {
-
-	set_variable = { total_resource_consumed_expenses = 0 }
-	if = { limit = { check_variable = { fuel_k < max_fuel_k } }
-		set_variable = { oil_consumed_expenses = resource@oil }
-		set_variable = { oil_consumed_expenses = resource@oil }
-		multiply_variable = { oil_consumed_expenses = global.resource_cost }
-	}
-	else = {
-		set_variable = { oil_consumed_expenses = 0 }
-	}
-	
-	set_variable = { aluminium_consumed_expenses = resource_consumed@aluminium }
-	multiply_variable = { aluminium_consumed_expenses = global.resource_cost }
-	
-	set_variable = { rubber_consumed_expenses = resource_consumed@rubber }
-	multiply_variable = { rubber_consumed_expenses = global.resource_cost }
-	
-	set_variable = { tungsten_consumed_expenses = resource_consumed@tungsten }
-	multiply_variable = { tungsten_consumed_expenses = global.resource_cost }
-	
-	set_variable = { steel_consumed_expenses = resource_consumed@steel }
-	multiply_variable = { steel_consumed_expenses = global.resource_cost }
-	
-	set_variable = { chromium_consumed_expenses = resource_consumed@chromium }
-	multiply_variable = { chromium_consumed_expenses = global.resource_cost }
-
-	add_to_variable = { total_resource_consumed_expenses = oil_consumed_expenses }
-	add_to_variable = { total_resource_consumed_expenses = aluminium_consumed_expenses }
-	add_to_variable = { total_resource_consumed_expenses = rubber_consumed_expenses }
-	add_to_variable = { total_resource_consumed_expenses = tungsten_consumed_expenses }
-	add_to_variable = { total_resource_consumed_expenses = steel_consumed_expenses }
-	add_to_variable = { total_resource_consumed_expenses = chromium_consumed_expenses }
-}
-
-calculate_civ_income = {
-	set_variable = { civ_income = consumer_number_of_civs }
-	multiply_variable = { civ_income = global.consumer_goods_multiplier }
-
-	add_to_variable = { civ_income = num_of_civilian_factories_available_for_projects }
-	multiply_variable = { civ_expenses = global.civ_facory_income }
-
-	if = {
-		limit = { has_government = democratic }
-		multiply_variable = { civ_income = global.democratic_multiplier }
-	}
-
-	set_variable = { factory_output = modifier@industrial_capacity_factory }
-	add_to_variable = { factory_output = 1 }
-	multiply_variable = { civ_income = factory_output }
-}
-
-calculate_military_expenses = {
-	set_variable = { military_expenses = 0 }
-
-	#----------------------------land-------------------------------
-	set_variable = { land_expenses = num_battalions }
-	multiply_variable = { land_expenses = global.battalion_expenses }
-
-	#-----------------------------air-------------------------------
-	set_variable = { air_expenses = num_deployed_planes }
-	multiply_variable = { air_expenses = global.plane_expenses }
-
-	#----------------------------navy-------------------------------
-	set_variable = { navy_expenses = 0 }
-
-	set_variable = { carrier_expenses = num_ships_with_type@carrier }
-	multiply_variable = { carrier_expenses = global.big_ship_cost }
-
-	set_variable = { battle_cruiser_expenses = num_ships_with_type@battle_cruiser }
-	multiply_variable = { battle_cruiser_expenses = global.big_ship_cost }
-
-	set_variable = { battleship_expenses = num_ships_with_type@battleship }
-	multiply_variable = { battleship_expenses = global.big_ship_cost }
-
-	set_variable = { destroyer_expenses = num_ships_with_type@destroyer }
-	multiply_variable = { destroyer_expenses = global.small_ship_cost }
-
-	set_variable = { heavy_cruiser_expenses = num_ships_with_type@heavy_cruiser }
-	multiply_variable = { heavy_cruiser_expenses = global.small_ship_cost }
-
-	set_variable = { light_cruiser_expenses = num_ships_with_type@light_cruiser }
-	multiply_variable = { light_cruiser_expenses = global.small_ship_cost }
-
-	set_variable = { submarine_expenses = num_ships_with_type@submarine }
-	multiply_variable = { submarine_expenses = global.small_ship_cost }
-	
-	add_to_variable = { navy_expenses = carrier_expenses }
-	add_to_variable = { navy_expenses = battle_cruiser_expenses }
-	add_to_variable = { navy_expenses = battleship_expenses }
-	add_to_variable = { navy_expenses = destroyer_expenses }
-	add_to_variable = { navy_expenses = heavy_cruiser_expenses }
-	add_to_variable = { navy_expenses = light_cruiser_expenses }
-	add_to_variable = { navy_expenses = submarine_expenses }
-
-	#----------------------------total-------------------------------
-	add_to_variable = { military_expenses = land_expenses }
-	add_to_variable = { military_expenses = air_expenses }
-	add_to_variable = { military_expenses = navy_expenses }
-}
-
 calculate_gdp = {
 	set_variable = { gdp = 0 }
-	add_to_variable = { gdp = civ_income }
+	add_to_variable = { gdp = civil_production_income }
+	add_to_variable = { gdp = military_production_expenses }
 	add_to_variable = { gdp = total_resource_consumed_expenses }
 	
 	set_variable = { gdp_per_capita = gdp }
@@ -133,12 +27,14 @@ calculate_saldo = {
 	set_variable = { total_expenses = 0 }
 
 	#----------------------------icome-------------------------------
-	add_to_variable = { total_income = civ_income }
+	add_to_variable = { total_income = civil_production_income }
 
 	#---------------------------expenses-----------------------------
 	add_to_variable = { total_expenses = total_resource_consumed_expenses }
 
-	add_to_variable = { total_expenses = military_expenses }
+	add_to_variable = { total_expenses = military_production_expenses }
+
+	add_to_variable = { total_expenses = active_military_expenses }
 
 	#----------------------------saldo-------------------------------
 	add_to_variable = { saldo = total_income }

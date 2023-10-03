@@ -1,0 +1,67 @@
+calculate_total_resource_consumed_expenses = {
+	set_variable = { total_resource_consumed_expenses = 0 }
+
+	if = { limit = { check_variable = { fuel_k < max_fuel_k } }
+		set_variable = { oil_consumed_expenses = resource@oil }
+		multiply_variable = { oil_consumed_expenses = global.resource_cost }
+	}
+	else = {
+		set_variable = { oil_consumed_expenses = 0 }
+	}
+	
+	set_variable = { aluminium_consumed_expenses = resource_consumed@aluminium }
+	multiply_variable = { aluminium_consumed_expenses = global.resource_cost }
+	
+	set_variable = { rubber_consumed_expenses = resource_consumed@rubber }
+	multiply_variable = { rubber_consumed_expenses = global.resource_cost }
+	
+	set_variable = { tungsten_consumed_expenses = resource_consumed@tungsten }
+	multiply_variable = { tungsten_consumed_expenses = global.resource_cost }
+	
+	set_variable = { steel_consumed_expenses = resource_consumed@steel }
+	multiply_variable = { steel_consumed_expenses = global.resource_cost }
+	
+	set_variable = { chromium_consumed_expenses = resource_consumed@chromium }
+	multiply_variable = { chromium_consumed_expenses = global.resource_cost }
+
+	add_to_variable = { total_resource_consumed_expenses = oil_consumed_expenses }
+	add_to_variable = { total_resource_consumed_expenses = aluminium_consumed_expenses }
+	add_to_variable = { total_resource_consumed_expenses = rubber_consumed_expenses }
+	add_to_variable = { total_resource_consumed_expenses = tungsten_consumed_expenses }
+	add_to_variable = { total_resource_consumed_expenses = steel_consumed_expenses }
+	add_to_variable = { total_resource_consumed_expenses = chromium_consumed_expenses }
+}
+
+calculate_resource_to_civ_modifier = {
+	set_variable = { total_resource_to_civ_modifier = 0 }
+
+	if = { limit = { check_variable = { fuel_k < max_fuel_k } }
+		set_variable = { oil_resource_to_civ_modifier = 0.0 }
+	}
+	else = {
+		set_variable = { oil_resource_to_civ_modifier = resource@oil }
+		multiply_variable = { oil_resource_to_civ_modifier = global.resource_to_civ_modifier }
+	}
+	
+	set_variable = { aluminium_resource_to_civ_modifier = resource@aluminium }
+	multiply_variable = { aluminium_resource_to_civ_modifier = global.resource_to_civ_modifier }
+	
+	set_variable = { rubber_resource_to_civ_modifier = resource@rubber }
+	multiply_variable = { rubber_resource_to_civ_modifier = global.resource_to_civ_modifier }
+	
+	set_variable = { tungsten_resource_to_civ_modifier = resource@tungsten }
+	multiply_variable = { tungsten_resource_to_civ_modifier = global.resource_to_civ_modifier }
+	
+	set_variable = { steel_resource_to_civ_modifier = resource@steel }
+	multiply_variable = { steel_resource_to_civ_modifier = global.resource_to_civ_modifier }
+	
+	set_variable = { chromium_resource_to_civ_modifier = resource@chromium }
+	multiply_variable = { chromium_resource_to_civ_modifier = global.resource_to_civ_modifier }
+
+	add_to_variable = { total_resource_to_civ_modifier = oil_resource_to_civ_modifier }
+	add_to_variable = { total_resource_to_civ_modifier = aluminium_resource_to_civ_modifier }
+	add_to_variable = { total_resource_to_civ_modifier = rubber_resource_to_civ_modifier }
+	add_to_variable = { total_resource_to_civ_modifier = tungsten_resource_to_civ_modifier }
+	add_to_variable = { total_resource_to_civ_modifier = steel_resource_to_civ_modifier }
+	add_to_variable = { total_resource_to_civ_modifier = chromium_resource_to_civ_modifier }
+}

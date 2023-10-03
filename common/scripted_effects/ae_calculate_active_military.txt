@@ -1,0 +1,48 @@
+calculate_active_military_expenses = {
+	set_variable = { active_military_expenses = 0 }
+
+	#----------------------------land-------------------------------
+	set_variable = { land_expenses = num_battalions }
+	multiply_variable = { land_expenses = global.battalion_expenses }
+
+	#-----------------------------air-------------------------------
+	set_variable = { air_expenses = num_deployed_planes }
+	multiply_variable = { air_expenses = global.plane_expenses }
+
+	#----------------------------navy-------------------------------
+	set_variable = { navy_expenses = 0 }
+
+	set_variable = { carrier_expenses = num_ships_with_type@carrier }
+	multiply_variable = { carrier_expenses = global.big_ship_cost }
+
+	set_variable = { battle_cruiser_expenses = num_ships_with_type@battle_cruiser }
+	multiply_variable = { battle_cruiser_expenses = global.big_ship_cost }
+
+	set_variable = { battleship_expenses = num_ships_with_type@battleship }
+	multiply_variable = { battleship_expenses = global.big_ship_cost }
+
+	set_variable = { destroyer_expenses = num_ships_with_type@destroyer }
+	multiply_variable = { destroyer_expenses = global.small_ship_cost }
+
+	set_variable = { heavy_cruiser_expenses = num_ships_with_type@heavy_cruiser }
+	multiply_variable = { heavy_cruiser_expenses = global.small_ship_cost }
+
+	set_variable = { light_cruiser_expenses = num_ships_with_type@light_cruiser }
+	multiply_variable = { light_cruiser_expenses = global.small_ship_cost }
+
+	set_variable = { submarine_expenses = num_ships_with_type@submarine }
+	multiply_variable = { submarine_expenses = global.small_ship_cost }
+	
+	add_to_variable = { navy_expenses = carrier_expenses }
+	add_to_variable = { navy_expenses = battle_cruiser_expenses }
+	add_to_variable = { navy_expenses = battleship_expenses }
+	add_to_variable = { navy_expenses = destroyer_expenses }
+	add_to_variable = { navy_expenses = heavy_cruiser_expenses }
+	add_to_variable = { navy_expenses = light_cruiser_expenses }
+	add_to_variable = { navy_expenses = submarine_expenses }
+
+	#----------------------------total-------------------------------
+	add_to_variable = { active_military_expenses = land_expenses }
+	add_to_variable = { active_military_expenses = air_expenses }
+	add_to_variable = { active_military_expenses = navy_expenses }
+}

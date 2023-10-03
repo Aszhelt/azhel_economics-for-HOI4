@@ -8,10 +8,16 @@ on_actions = {
 			set_variable = { democratic_multiplier = 1.0 }
 			
 			set_variable = { civ_facory_income = 10.0 }
+
+			set_variable = { mil_facory_expenses = 1.0 }
+
+			set_variable = { naval_facory_expenses = 5.0 }
 			
 			set_variable = { consumer_goods_multiplier = 0.1 }
 
-			set_variable = { resource_cost = 1.25 }
+			set_variable = { resource_cost = 0.125 }
+
+			set_variable = { resource_to_civ_modifier = 0.01 }
 
 			set_variable = { battalion_expenses = 0.01 }
 

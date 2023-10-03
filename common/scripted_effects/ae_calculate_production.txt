@@ -1,0 +1,41 @@
+calculate_civil_production_income = {
+	#--------------------income from consumer goods----------------
+	set_variable = { consumer_number_of_civs = num_of_civilian_factories }
+	subtract_from_variable = { consumer_number_of_civs = num_of_civilian_factories_available_for_projects }
+	
+	set_variable = { civil_production_income = consumer_number_of_civs }
+	multiply_variable = { civil_production_income = global.consumer_goods_multiplier }
+
+	#-------------------income from normal factories---------------
+	add_to_variable = { civil_production_income = num_of_civilian_factories_available_for_projects }
+
+	multiply_variable = { civil_production_income = global.civ_facory_income }
+	calculate_resource_to_civ_modifier = yes
+	multiply_variable = { civil_production_income = total_resource_to_civ_modifier }
+	
+	if = {
+		limit = { has_government = democratic }
+		multiply_variable = { civil_production_income = global.democratic_multiplier }
+	}
+
+	set_variable = { factory_output = modifier@industrial_capacity_factory }
+	add_to_variable = { factory_output = 1 }
+	multiply_variable = { civil_production_income = factory_output }
+}
+
+calculate_military_production_expenses = {
+	set_variable = { military_production_expenses = 0 }
+
+	#------------------------military factories--------------------
+	set_variable = { mil_expenses = num_of_military_factories }
+	subtract_from_variable = { mil_expenses = num_of_available_military_factories }
+	multiply_variable = { mil_expenses = global.mil_facory_expenses }
+
+	#--------------------------naval factories---------------------
+	set_variable = { naval_expenses = num_of_naval_factories }
+	subtract_from_variable = { naval_expenses = num_of_available_naval_factories }
+	multiply_variable = { naval_expenses = global.naval_facory_expenses }
+
+	add_to_variable = { military_production_expenses = mil_expenses }
+	add_to_variable = { military_production_expenses = naval_expenses }
+}
