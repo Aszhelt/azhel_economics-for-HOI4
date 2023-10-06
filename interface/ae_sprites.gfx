@@ -1,0 +1,13 @@
+spriteTypes = {	
+	spriteType = {
+		name = "icon_money"
+		texturefile = "gfx/money_picture.dds"
+		legacy_lazy_load = no
+	}
+
+	spriteType = {
+		name = "icon_background"
+		texturefile = "gfx/background_picture.dds"
+		legacy_lazy_load = no
+	}
+}

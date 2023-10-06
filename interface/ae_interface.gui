@@ -2,11 +2,23 @@ guiTypes = {
 
 	containerWindowType = {
 		name = "budget_container"
-		position = { x = 1300 y = 100 }
-		
+		position = { x = 970 y = 6 }
+
+		buttonType = {
+			name ="background_icon"
+			spriteType = "icon_background"
+			position = { x= 0 y = 0 }
+		}
+
+		iconType = {
+			name ="money_icon"
+			spriteType = "icon_money"
+			position = { x= 4 y = 0 }
+		}
+
 		instantTextBoxType = {
 			name ="budget_text"
-			position = { x= 0 y = 0 }
+			position = { x= 32 y = 3 }
 			font = "hoi_18mbs"
 			text = "BUDGET_MAIN"
 			format = left
